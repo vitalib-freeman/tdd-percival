@@ -20,7 +20,7 @@ class NewVisitorTest(LiveServerTestCase):
             try:
                 table = self.browser.find_element_by_id('id_list_table')
                 rows = table.find_elements_by_tag_name('tr')
-                self.assertIn(row_text, [row_text for row in rows])
+                self.assertIn(row_text, [row.text for row in rows])
                 return
             except (AssertionError, WebDriverException) as e:
                 if time.time() - start_time > MAX_WAIT:
@@ -55,8 +55,6 @@ class NewVisitorTest(LiveServerTestCase):
         # "1: Buy peacock feathers" as an item in a to-do list
         inputbox.send_keys(Keys.ENTER)
 
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
 
         # There is still a text box inviting her to add another item. She 
@@ -66,8 +64,6 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox.send_keys(Keys.ENTER)
 
         # The page updates again, and now shows both items on her list
-        table = self.browser.find_element_by_id('id_list_table')
-        rows = table.find_elements_by_tag_name('tr')
         self.wait_for_row_in_list_table('1: Buy peacock feathers')
         self.wait_for_row_in_list_table('2: Use peacock feathers to make a fly')
 
@@ -102,8 +98,8 @@ class NewVisitorTest(LiveServerTestCase):
         #Francis starts a new list by entering a new item. He
         # is less interesting then Edith...
         inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox = send_keys('Buy milk')
-        inputbox = send_keys(Keys.ENTER)
+        inputbox.send_keys('Buy milk')
+        inputbox.send_keys(Keys.ENTER)
         self.wait_for_row_in_list_table('1: Buy milk')
 
         # Francis gets his own unique URL
