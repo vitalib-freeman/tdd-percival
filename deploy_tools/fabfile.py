@@ -6,7 +6,7 @@ REPO_URL = "https://github.com/vitalib-freeman/tdd-percival.git"
 
 def deploy():
     site_folder = f'/home/{env.user}/sites/{env.host}'
-    run(f'mkdir -p {site.folder}')
+    run(f'mkdir -p {site_folder}')
     with cd(site_folder):
         _get_latest_source()
         _update_virtualenv()
